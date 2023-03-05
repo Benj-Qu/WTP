@@ -1,5 +1,5 @@
 #include <iostream>
-#include "utils/info.h"
+#include "utils/info.hpp"
 
 int main(int argc, char **argv) {
     ReceiverInfo info;

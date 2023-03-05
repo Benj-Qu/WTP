@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "info.h"
+#include "info.hpp"
 
 void parse_SenderInfo(SenderInfo* info, int argc, char** argv) {
     if (argc != 6) {

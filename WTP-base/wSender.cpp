@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "utils/info.h"
-#include "utils/clock.h"
+#include "utils/info.hpp"
+#include "utils/clock.hpp"
 
 #define INIT_SEQ 0
 #define CHUNK_SIZE 1456
