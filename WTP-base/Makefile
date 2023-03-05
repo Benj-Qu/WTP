@@ -4,7 +4,7 @@ CXXFLAGS = -std=c++17 -Wconversion -Wall -Werror -Wextra -pedantic -O3 -DNDEBUG
 
 SenderSource = wSender.cpp info.cpp
 
-ReceiverSource = wReceiver.cpp
+ReceiverSource = wReceiver.cpp info.cpp
 
 wSender: $(SenderSource)
 	g++ $(SenderSource) -o $@ -I $(CXXFLAGS)
