@@ -3,23 +3,21 @@
 
 #include <string>
 
-using std::string;
-
 struct SenderInfo
 {
-    string IP;
+    std::string IP;
     unsigned int port;
     unsigned int size;
-    string iFile;
-    string log;
+    std::string iFile;
+    std::string log;
 };
 
 struct ReceiverInfo
 {
     unsigned int port;
     unsigned int size;
-    string oDir;
-    string log;
+    std::string oDir;
+    std::string log;
 };
 
 void parse_SenderInfo(SenderInfo* info, int argc, char** argv);
