@@ -2,7 +2,7 @@ all: wSender wReceiver
 
 CXXFLAGS = -std=c++17 -Wconversion -Wall -Werror -Wextra -pedantic -O3 -DNDEBUG
 
-SenderSource = wSender.cpp info.cpp
+SenderSource = wSender.cpp info.cpp clock.cpp
 
 ReceiverSource = wReceiver.cpp info.cpp
 
