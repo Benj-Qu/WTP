@@ -1,4 +1,12 @@
-all: wSender
+all: wSender wReceiver
 
-wSender: wSender.c hellofunc.c
-    g++ -o hellomake hellomake.c hellofunc.c -I -std=c++14
+CXXFLAGS = -std=c++17 -Wconversion -Wall -Werror -Wextra -pedantic -O3 -DNDEBUG
+
+wSender: wSender.cpp
+	g++ $< -o $@ -I $(CXXFLAGS)
+
+wReceiver: wReceiver.cpp
+	g++ $< -o $@ -I $(CXXFLAGS)
+
+clean:
+	rm -f *.o wSender wReceiver
