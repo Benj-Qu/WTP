@@ -1,14 +1,13 @@
 #include <iostream>
 
-#include "utils/info.hpp"
-#include "utils/clock.hpp"
+#include "utils/Info.hpp"
+#include "utils/Clock.hpp"
 
 #define INIT_SEQ 0
 #define CHUNK_SIZE 1456
 
 int main(int argc, char **argv) {
-    SenderInfo info;
-    parse_SenderInfo(&info, argc, argv);
+    SenderInfo info(argc, argv);
     std::cout << info.IP << " " << info.port << " " << info.size << " " << info.iFile << " " << info.log << std::endl;
 
     Clock timer;

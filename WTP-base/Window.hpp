@@ -6,10 +6,11 @@
 class Window {
 private:
     unsigned int size;
-    std::deque<> ;
+    unsigned int head;
+    std::deque<char*> ;
 
 public:
-    Window(usigned int _size);
+    Window(usigned int _size) : size(_size) {};
 };
 
 #endif

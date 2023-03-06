@@ -3,24 +3,23 @@
 
 #include <string>
 
-struct SenderInfo
-{
+class SenderInfo {
+public:
     std::string IP;
     unsigned int port;
     unsigned int size;
     std::string iFile;
     std::string log;
+    SenderInfo(int argc, char** argv);
 };
 
-struct ReceiverInfo
-{
+struct ReceiverInfo {
+public:
     unsigned int port;
     unsigned int size;
     std::string oDir;
     std::string log;
+    ReceiverInfo(int argc, char** argv);
 };
-
-void parse_SenderInfo(SenderInfo* info, int argc, char** argv);
-void parse_ReceiverInfo(ReceiverInfo* info, int argc, char** argv);
 
 #endif
