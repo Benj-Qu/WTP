@@ -11,9 +11,9 @@ Packet::Packet(unsigned int _length, PacketHeader* header, char* message) {
     // Set packet header
     header->encode(this->content);
     // Set packet message
-    strncpy(this->content + HEADER_SIZE, message, CHUNK_SIZE);
+    strncpy(this->content + HEADER_SIZE, message, _length);
 }
 
 void Packet::extract(char* buffer) {
-    strncpy(buffer, this->content + HEADER_SIZE, CHUNK_SIZE);
+    strncpy(buffer, this->content + HEADER_SIZE, _length);
 }
