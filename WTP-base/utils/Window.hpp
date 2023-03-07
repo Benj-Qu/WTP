@@ -13,6 +13,7 @@ private:
     std::deque<Packet> packets;
 
 public:
+    Window() : size(0), head(0) {};
     Window(unsigned int _size) : size(_size), head(INIT_SEQ) {};
     bool full();
     bool empty();
@@ -22,6 +23,7 @@ public:
     void acked(unsigned int seqnum);
     void forward();
     void cumulForward(unsigned int seqnum);
+    void sendall(int sockfd);
 };
 
 #endif

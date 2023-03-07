@@ -46,3 +46,9 @@ void Window::cumulForward(unsigned int seqnum) {
         this->head++;
     }
 }
+
+void Window::sendall(int sockfd) {
+    for (Packet packet : this->packets) {
+        packet.send(sockfd);
+    }
+}
