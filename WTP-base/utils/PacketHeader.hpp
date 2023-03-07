@@ -1,6 +1,8 @@
 #ifndef __PACKET_HEADER_H__
 #define __PACKET_HEADER_H__
 
+#include <fstream>
+
 #define START 0
 #define END 1
 #define DATA 2
@@ -17,6 +19,7 @@ public:
         type(_type), seqNum(_seqNum), length(_length), checksum(_checksum) {};
     PacketHeader(char* header);
     void encode(char* buffer);
+    void log(std::ofstream& ofs);
 };
 
 #endif

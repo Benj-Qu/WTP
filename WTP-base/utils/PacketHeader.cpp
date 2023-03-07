@@ -18,3 +18,7 @@ void PacketHeader::encode(char* buffer) {
 	memcpy((void*)(buffer + 2 * INT_SIZE), (void*)(&(this->length)), INT_SIZE);
 	memcpy((void*)(buffer + 3 * INT_SIZE), (void*)(&(this->checksum)), INT_SIZE);
 }
+
+void PacketHeader::log(std::ofstream& ofs) {
+	ofs << this->type << " " << this->seqNum << " " << this->length << " " << this->checksum << std::endl;
+}
