@@ -3,7 +3,6 @@
 #include "utils/Info.hpp"
 #include "utils/Clock.hpp"
 
-#define INIT_SEQ 0
 #define CHUNK_SIZE 1456
 
 int main(int argc, char **argv) {
