@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <cstring>
 
-Packet::Packet(PacketHeader* header, char* message) {
+Packet::Packet(unsigned int _length, PacketHeader* header, char* message) {
+    this->length = _length;
     this->acked = false;
     // Initialize packet content
     memset((void*)(this->content), 0, PACKET_SIZE + 1);

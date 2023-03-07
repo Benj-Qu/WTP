@@ -9,9 +9,10 @@
 
 class Packet {
 public:
+    unsigned int length;
     char content[PACKET_SIZE + 1];
     bool acked;
-    Packet(PacketHeader* header, char* message);
+    Packet(unsigned int _length, PacketHeader* header, char* message);
     void extract(char* buffer);
 };
 
