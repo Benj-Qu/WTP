@@ -15,5 +15,5 @@ Packet::Packet(unsigned int _length, PacketHeader* header, char* message) {
 }
 
 void Packet::extract(char* buffer) {
-    strncpy(buffer, this->content + HEADER_SIZE, _length);
+    strncpy(buffer, this->content + HEADER_SIZE, this->length);
 }
