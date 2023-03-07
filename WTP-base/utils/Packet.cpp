@@ -11,7 +11,7 @@ Packet::Packet(unsigned int type, unsigned int seqNum, unsigned int length, char
     strncpy(this->data, _data, length);
 }
 
-Packet(char* buffer, std::ofstream& log) {
+Packet::Packet(char* buffer, std::ofstream& log) {
     this->header = PacketHeader(buffer);
     this->acked = false;
     memset(this->data, 0, sizeof(this->data));
