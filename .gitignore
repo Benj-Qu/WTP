@@ -1,2 +1,8 @@
 .vscode
 *.o
+WTP-base/*.in
+WTP-base/log.txt
+WTP-base/tmp/
+WTP-opt/*.in
+WTP-opt/log.txt
+WTP-opt/tmp/
