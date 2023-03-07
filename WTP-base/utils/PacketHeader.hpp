@@ -15,6 +15,7 @@ public:
     unsigned int seqNum;   // Described below
     unsigned int length;   // Length of data; 0 for ACK packets
     unsigned int checksum; // 32-bit CRC
+    PacketHeader() : type(0), seqNum(0), length(0), checksum(0) {};
     PacketHeader(unsigned int _type, unsigned int _seqNum, unsigned int _length, unsigned int _checksum) : 
         type(_type), seqNum(_seqNum), length(_length), checksum(_checksum) {};
     PacketHeader(char* header);
