@@ -1,5 +1,8 @@
 #include "PacketHeader.hpp"
 
+#include <stdio.h>
+#include <cstring>
+
 #define INT_SIZE 4
 
 PacketHeader::PacketHeader(char* buffer) {
