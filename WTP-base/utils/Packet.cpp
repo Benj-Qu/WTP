@@ -1,5 +1,8 @@
 #include "Packet.hpp"
 
+#include <stdio.h>
+#include <cstring>
+
 Packet::Packet(PacketHeader* header, char* message) {
     this->acked = false;
     // Initialize packet content

@@ -9,7 +9,7 @@
 
 class Packet {
 public:
-    char* content[PACKET_SIZE + 1];
+    char content[PACKET_SIZE + 1];
     bool acked;
     Packet(PacketHeader* header, char* message);
     void extract(char* buffer);
