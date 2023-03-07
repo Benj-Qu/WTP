@@ -13,7 +13,7 @@ private:
     std::deque<Packet> packets;
 
 public:
-    Window(usigned int _size) : size(_size), head(INIT_SEQ) {};
+    Window(unsigned int _size) : size(_size), head(INIT_SEQ) {};
     bool full();
     bool empty();
     bool accept(unsigned int seqnum);
