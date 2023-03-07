@@ -19,7 +19,7 @@ public:
         type(_type), seqNum(_seqNum), length(_length), checksum(_checksum) {};
     PacketHeader(char* header);
     void encode(char* buffer);
-    void log(std::ofstream& ofs);
+    void log(std::ofstream& log);
 };
 
 #endif
