@@ -9,11 +9,13 @@
 
 class Packet {
 public:
-    unsigned int length;
-    char content[PACKET_SIZE + 1];
+    PacketHeader header;
+    char data[CHUNK_SIZE + 1];
     bool acked;
-    Packet(unsigned int _length, PacketHeader* header, char* message);
-    void extract(char* buffer);
+    Packet(unsigned int type, unsigned int seqNum, unsigned int length, char* _data);
+    Packet(char* buffer, std::ofstream& log);
+    void send(int sockfd, std::ofstream& log);
+    bool checkSum(std::ofstream& log);
 };
 
 #endif
