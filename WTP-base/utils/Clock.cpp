@@ -1,7 +1,5 @@
 #include "Clock.hpp"
 
-#include <time.h>
-
 void Clock::reset() {
     this->time = clock();
 }
