@@ -23,7 +23,7 @@ public:
     void acked(unsigned int seqnum);
     void forward();
     void cumulForward(unsigned int seqnum);
-    void sendall(int sockfd);
+    void sendall(int sockfd, std::ofstream& log);
 };
 
 #endif
