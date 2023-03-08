@@ -1,10 +1,10 @@
 #include "Clock.hpp"
 
 void Clock::reset() {
-    this->time = clock();
+    this->time = high_resolution_clock::now();
 }
 
 bool Clock::exceed() {
-    return ((double) (clock() - this->time) / CLOCKS_PER_SEC) > RETRANS_TIME;
+    return duration_cast<milliseconds>(high_resolution_clock::now() - this->time).count() >= RETRANS_TIME;
 }
 
