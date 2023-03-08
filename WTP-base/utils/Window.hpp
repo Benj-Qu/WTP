@@ -3,6 +3,7 @@
 
 #include <deque>
 #include "Packet.hpp"
+#include "Clock.hpp"
 
 #define INIT_SEQ 0
 
@@ -11,6 +12,7 @@ private:
     unsigned int size;
     unsigned int head;
     std::deque<Packet> packets;
+    Clock clock;
 
 public:
     Window() : size(0), head(0) {};
