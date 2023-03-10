@@ -25,9 +25,22 @@ void Window::acked(unsigned int seqnum) {
     this->packets[seqnum-head].acked = true;
 }
 
-void Window::forward() {
+void Window::senderForward() {
     while (!this->packets.empty()) {
         if (this->packets.front().acked) {
+            this->packets.pop_front();
+            this->head++;
+        }
+        else {
+            break;
+        }
+    }
+}
+
+void Window::recverForward(std::ofstream& ofp) {
+    while (!this->packets.empty()) {
+        if (this->packets.front().acked) {
+            ofp.write(this->packets.front().data, this->packets.front().header.length);
             this->packets.pop_front();
             this->head++;
         }
