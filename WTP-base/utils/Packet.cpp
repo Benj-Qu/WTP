@@ -25,7 +25,7 @@ void Packet::sendPack(AddrInfo* sender, std::ofstream& log) {
     memset(message, 0, sizeof(message));
     this->header.encode(message);
     strncpy(message + HEADER_SIZE, this->data, this->header.length);
-    if (send(sockfd, message, HEADER_SIZE + this->header.length, 0) == -1) {
+    if (sender->send(message, HEADER_SIZE + this->header.length) == -1) {
         perror("Fail Sending Packet");
         exit(1);
     }
