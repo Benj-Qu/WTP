@@ -20,7 +20,7 @@ Packet::Packet(char* buffer, std::ofstream& log) {
     this->header.log(log);
 }
 
-void Packet::sendPack(int sockfd, std::ofstream& log) {
+void Packet::sendPack(AddrInfo* sender, std::ofstream& log) {
     char message[PACKET_SIZE + 1];
     memset(message, 0, sizeof(message));
     this->header.encode(message);

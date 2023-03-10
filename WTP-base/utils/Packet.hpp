@@ -14,7 +14,7 @@ public:
     bool acked;
     Packet(unsigned int type, unsigned int seqNum, unsigned int length, char* _data);
     Packet(char* buffer, std::ofstream& log);
-    void sendPack(int sockfd, std::ofstream& log);
+    void sendPack(AddrInfo* sender, std::ofstream& log);
     bool checkSum();
 };
 
