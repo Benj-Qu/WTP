@@ -47,8 +47,8 @@ void Window::cumulForward(unsigned int seqnum) {
     }
 }
 
-void Window::sendall(int sockfd, std::ofstream& log) {
+void Window::sendall(AddrInfo* sender, std::ofstream& log) {
     for (Packet packet : this->packets) {
-        packet.sendPack(sockfd, log);
+        packet.sendPack(sender, log);
     }
 }
