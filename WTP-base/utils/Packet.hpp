@@ -13,9 +13,9 @@ public:
     char data[CHUNK_SIZE + 1];
     bool acked;
     Packet(unsigned int type, unsigned int seqNum, unsigned int length, char* _data);
-    Packet(char* buffer);
+    Packet(char* buffer, std::ofstream& log);
     void sendPack(int sockfd, std::ofstream& log);
-    bool checkSum(std::ofstream& log);
+    bool checkSum();
 };
 
 #endif

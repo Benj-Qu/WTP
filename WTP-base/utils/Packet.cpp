@@ -12,11 +12,12 @@ Packet::Packet(unsigned int type, unsigned int seqNum, unsigned int length, char
     strncpy(this->data, _data, length);
 }
 
-Packet::Packet(char* buffer) {
+Packet::Packet(char* buffer, std::ofstream& log) {
     this->header = PacketHeader(buffer);
     this->acked = false;
     memset(this->data, 0, sizeof(this->data));
     strncpy(this->data, buffer + HEADER_SIZE, this->header.length);
+    this->header.log(log);
 }
 
 void Packet::sendPack(int sockfd, std::ofstream& log) {
@@ -31,10 +32,6 @@ void Packet::sendPack(int sockfd, std::ofstream& log) {
     this->header.log(log);
 }
 
-bool Packet::checkSum(std::ofstream& log) {
-    if (crc32(this->data, this->header.length) == this->header.checksum) {
-        this->header.log(log);
-        return true;
-    }
-    return false;
+bool Packet::checkSum() {
+    return (crc32(this->data, this->header.length) == this->header.checksum);
 }
