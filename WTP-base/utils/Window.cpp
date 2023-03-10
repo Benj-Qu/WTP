@@ -38,8 +38,9 @@ void Window::forward() {
 }
 
 void Window::cumulForward(unsigned int seqnum) {
+    if (!this->accept(seqnum)) return;
     while (!this->packets.empty()) {
-        if (this->head == seqnum) {
+        if (this->head >= seqnum) {
             break;
         }
         this->packets.pop_front();
