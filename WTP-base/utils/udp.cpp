@@ -9,4 +9,3 @@ int AddrInfo::send(char* data, int len) {
 int AddrInfo::recv(char* buffer, int len) {
     return recvfrom(this->sockfd, buffer, len, 0, this->addr, &(this->addrlen));
 }
-
