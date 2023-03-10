@@ -2,10 +2,10 @@
 
 #include <string.h>
 
-int AddrInfo::send(char* data, int len) {
+ssize_t AddrInfo::send(char* data, size_t len) {
     return sendto(this->sockfd, data, len, 0, this->addr, this->addrlen);
 }
 
-int AddrInfo::recv(char* buffer, int len) {
+ssize_t AddrInfo::recv(char* buffer, size_t len) {
     return recvfrom(this->sockfd, buffer, len, 0, this->addr, &(this->addrlen));
 }

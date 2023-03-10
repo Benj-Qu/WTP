@@ -14,10 +14,11 @@ public:
     struct sockaddr* addr;
     socklen_t addrlen;
 
+    AddrInfo(int _sockfd) : sockfd(_sockfd) {};
     AddrInfo(int _sockfd, struct sockaddr* _addr, socklen_t _addrlen) :
         sockfd(_sockfd), addr(_addr), addrlen(_addrlen) {};
-    int send(char* data, int len);
-    int recv(char* buffer, int len);
+    ssize_t send(char* data, size_t len);
+    ssize_t recv(char* buffer, size_t len);
 };
 
 #endif
