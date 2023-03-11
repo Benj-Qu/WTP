@@ -25,7 +25,7 @@ public:
     void pop();
     void acked(unsigned int seqnum);
     void senderForward();
-    void recverForward(std::ofstream& ofp);
+    void recverForward(std::ofstream& ofp, AddrInfo* sender, std::ofstream& log);
     void cumulForward(unsigned int seqnum);
     void sendall(AddrInfo* sender, std::ofstream& log);
 };

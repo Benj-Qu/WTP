@@ -37,7 +37,7 @@ void Window::senderForward() {
     }
 }
 
-void Window::recverForward(std::ofstream& ofp) {
+void Window::recverForward(std::ofstream& ofp, AddrInfo* sender, std::ofstream& log) {
     while (!this->packets.empty()) {
         if (this->packets.front().acked) {
             ofp.write(this->packets.front().data, this->packets.front().header.length);
@@ -48,6 +48,8 @@ void Window::recverForward(std::ofstream& ofp) {
             break;
         }
     }
+    Packet ack(ACK, this->head)
+    ack.sendPack(sender, log);
 }
 
 void Window::cumulForward(unsigned int seqnum) {
