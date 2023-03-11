@@ -13,7 +13,6 @@
 
 int main(int argc, char **argv) {
     ReceiverInfo info(argc, argv);
-    std::cout << info.port << " " << info.size << " " << info.oDir << " " << info.log << std::endl;
 
     // Set Socket
     struct sockaddr_in sendaddr, recvaddr;
