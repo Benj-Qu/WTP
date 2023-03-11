@@ -48,7 +48,7 @@ void Window::recverForward(std::ofstream& ofp, AddrInfo* sender, std::ofstream& 
             break;
         }
     }
-    Packet ack(ACK, this->head)
+    Packet ack(ACK, this->head);
     ack.sendPack(sender, log);
 }
 
