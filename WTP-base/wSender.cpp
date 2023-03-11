@@ -42,8 +42,7 @@ int main(int argc, char **argv) {
     unsigned int seed = rand();
 
     // Send Start Packet
-    memset(buffer, 0, sizeof(buffer));
-    Packet start(START, seed, 0, buffer);
+    Packet start(START, seed);
     start.sendPack(&sender, log);
     while (true) {
         if (recver.recv(buffer, PACKET_SIZE) <= 0) continue;
@@ -77,8 +76,7 @@ int main(int argc, char **argv) {
     }
 
     // Send End Packet
-    memset(buffer, 0, sizeof(buffer));
-    Packet end(END, seed, 0, buffer);
+    Packet end(END, seed);
     end.sendPack(&sender, log);
     while (true) {
         if (recver.recv(buffer, PACKET_SIZE) <= 0) continue;

@@ -1,7 +1,9 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <cstring>
-#include <filesystem>
+#include <cstdlib>
+#include <sys/stat.h>
 
 #include "utils/Info.hpp"
 #include "utils/Packet.hpp"
@@ -36,7 +38,14 @@ int main(int argc, char **argv) {
     // Create Sender Window
     Window window = Window(info.size);
     // Create Directory
-    std::filesystem::create_directory(info.oDir);
+    std::string cmd = "mkdir " + info.oDir;
+    struct stat st;
+    if (stat(info.oDir.c_str(), &st) != 0) {
+        if (system(cmd.c_str()) < 0) {
+            std::cerr << "Failed Creating Directory" << std::endl;
+            exit(1);
+        }
+    }
     // Open Log File
     std::ofstream log(info.log);
     // Set Buffer
@@ -44,6 +53,7 @@ int main(int argc, char **argv) {
     unsigned int seed = 0;
 
     // Keep Listening
+    unsigned int index = 0;
     while(true) {
         // Receive START
         memset(buffer, 0, sizeof(buffer));
@@ -51,13 +61,40 @@ int main(int argc, char **argv) {
             Packet packet(buffer, log);
             if (packet.header.type == START) {
                 seed = packet.header.seqNum;
+                packet.header.type = ACK;
+                packet.sendPack(&sender, log);
             }
             else continue;
         }
+        else continue;
 
-        
+        // Open Output File
+        std::ostringstream oss;
+        oss << info.oDir << "/FILE-" << index++ << ".out";
+        std::string ofile = oss.str();
+        std::ofstream ofp(ofile);
+
+        // Receive Data
+        while (true) {
+            memset(buffer, 0, sizeof(buffer));
+            if (sender.recv(buffer, PACKET_SIZE) > 0) {
+                Packet packet(buffer, log);
+                if (packet.checkSum() && packet.header.type == END && packet.header.seqNum == seed) {
+                    packet.header.type = ACK;
+                    packet.sendPack(&sender, log);
+                    break;
+                }
+                if (packet.checkSum() && packet.header.type == DATA) {
+                    window.recverForward(ofp, &sender, log);
+                }
+            }
+        }
+
+        // Close File
+        ofp.close();
     }
 
-    close(s);
+    log.close();
+    close(sockfd);
     return 0;
 }
