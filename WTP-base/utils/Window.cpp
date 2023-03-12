@@ -34,6 +34,12 @@ void Window::reset() {
     this->fill();
 }
 
+void Window::ack(unsigned int seqNum) {
+    if (this->accept(seqNum)) {
+        this->packets[seqNum - head].acked = true;
+    }
+}
+
 void Window::receive(Packet packet) {
     packet.acked = true;
     if (this->accept(packet.header.seqNum)) {

@@ -24,6 +24,7 @@ public:
     void pop();
     void fill();
     void reset();
+    void ack(unsigned int seqNum);
     void receive(Packet packet);
     void senderForward();
     void recverForward(std::ofstream& ofp);
