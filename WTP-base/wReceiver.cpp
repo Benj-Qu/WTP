@@ -86,11 +86,9 @@ int main(int argc, char **argv) {
                     packet.header.type = ACK;
                     packet.sendPack(&sender, log);
                     window.reset();
-                    std::cout << "End Receiving File " << index << std::endl;
                     break;
                 }
                 if (packet.checkSum() && packet.header.type == DATA) {
-                    std::cout << "Received data with sequence number: " << packet.header.seqNum << std::endl;
                     window.receive(packet);
                     window.recverForward(ofp, &sender, log);
                 }
