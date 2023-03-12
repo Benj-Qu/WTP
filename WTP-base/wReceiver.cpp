@@ -90,7 +90,8 @@ int main(int argc, char **argv) {
                 }
                 if (packet.checkSum() && packet.header.type == DATA) {
                     window.receive(packet);
-                    window.recverForward(ofp, &sender, log);
+                    window.recverForward(ofp);
+                    window.sendAck(&sender, log);
                 }
             }
         }
