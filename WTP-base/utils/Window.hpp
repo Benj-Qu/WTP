@@ -30,6 +30,7 @@ public:
     void cumulForward(unsigned int seqnum);
     void sendall(AddrInfo* sender, std::ofstream& log);
     void sendAck(AddrInfo* sender, std::ofstream& log);
+    void resendAll(AddrInfo* sender, std::ofstream& log);
 };
 
 #endif

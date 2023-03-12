@@ -88,3 +88,11 @@ void Window::sendAck(AddrInfo* sender, std::ofstream& log) {
     Packet ack(ACK, this->head);
     ack.sendPack(sender, log);
 }
+
+void Window::resendAll(AddrInfo* sender, std::ofstream& log) {
+    for (Packet packet : this->packets) {
+        if (!packet.acked) {
+            packet.sendPack(sender, log);
+        }
+    }
+}
