@@ -26,9 +26,10 @@ public:
     void reset();
     void receive(Packet packet);
     void senderForward();
-    void recverForward(std::ofstream& ofp, AddrInfo* sender, std::ofstream& log);
+    void recverForward(std::ofstream& ofp);
     void cumulForward(unsigned int seqnum);
     void sendall(AddrInfo* sender, std::ofstream& log);
+    void sendAck(AddrInfo* sender, std::ofstream& log);
 };
 
 #endif
