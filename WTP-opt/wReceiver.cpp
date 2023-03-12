@@ -89,11 +89,11 @@ int main(int argc, char **argv) {
                     break;
                 }
                 if (packet.checkSum() && packet.header.type == DATA) {
-                    window.receive(packet);
-                    window.recverForward(ofp);
                     if (window.accept(packet.header.seqNum)) {
                         Packet ack(ACK, packet.header.seqNum);
                         ack.sendPack(&sender, log);
+                        window.receive(packet);
+                        window.recverForward(ofp);
                     }
                 }
             }
