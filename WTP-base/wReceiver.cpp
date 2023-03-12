@@ -36,6 +36,7 @@ int main(int argc, char **argv) {
 
     // Create Sender Window
     Window window = Window(info.size);
+    window.fill();
     // Create Directory
     std::string cmd = "mkdir " + info.oDir;
     struct stat st;
@@ -44,6 +45,9 @@ int main(int argc, char **argv) {
             std::cerr << "Failed Creating Directory" << std::endl;
             exit(1);
         }
+    }
+    else {
+        std::cerr << "Directory Already Existed" << std::endl;
     }
     // Open Log File
     std::ofstream log(info.log);
@@ -81,9 +85,13 @@ int main(int argc, char **argv) {
                 if (packet.checkSum() && packet.header.type == END && packet.header.seqNum == seed) {
                     packet.header.type = ACK;
                     packet.sendPack(&sender, log);
+                    window.reset();
+                    std::cout << "End Receiving File " << index << std::endl;
                     break;
                 }
                 if (packet.checkSum() && packet.header.type == DATA) {
+                    std::cout << "Received data with sequence number: " << packet.header.seqNum << std::endl;
+                    window.receive(packet);
                     window.recverForward(ofp, &sender, log);
                 }
             }

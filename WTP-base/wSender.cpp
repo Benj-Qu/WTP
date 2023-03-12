@@ -52,9 +52,13 @@ int main(int argc, char **argv) {
 
     // Send Packets
     unsigned int seqNum = INIT_SEQ;
-    while (!ifp || !window.empty()) {
+    if (!ifp) {
+        std::cerr << "Imput File Empty" << std::endl;
+        exit(1);
+    }
+    while (ifp || !window.empty()) {
         // Send Packets
-        while (!window.full() && ifp) {
+        while (ifp && !window.full()) {
             // Read File
             memset(buffer, 0, sizeof(buffer));
             ifp.read(buffer, CHUNK_SIZE);
@@ -72,6 +76,9 @@ int main(int argc, char **argv) {
             if (packet.checkSum() && packet.header.type == ACK) {
                 window.cumulForward(packet.header.seqNum);
             }
+        }
+        else {
+            window.sendall(&sender, log);
         }
     }
 
