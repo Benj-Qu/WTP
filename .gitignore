@@ -1,6 +1,5 @@
 .vscode
 *.o
-WTP-*/*.in
 WTP-*/*.txt
 WTP-*/tmp/
 WTP-*/test.out
