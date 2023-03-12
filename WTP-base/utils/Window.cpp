@@ -9,7 +9,7 @@ bool Window::empty() {
 }
 
 bool Window::accept(unsigned int seqnum) {
-    return (seqnum <= (this->head + this->size - 1));
+    return (seqnum >= this->head) && (seqnum <= (this->head + this->size - 1));
 }
 
 void Window::push(Packet packet) {
@@ -21,8 +21,24 @@ void Window::pop() {
     this->head++;
 }
 
-void Window::acked(unsigned int seqnum) {
-    this->packets[seqnum-head].acked = true;
+void Window::fill() {
+    while (!this->full()) {
+        Packet packet(ACK, this->head + (unsigned int)this->packets.size());
+        this->push(packet);
+    }
+}
+
+void Window::reset() {
+    this->packets.clear();
+    this->head = INIT_SEQ;
+    this->fill();
+}
+
+void Window::receive(Packet packet) {
+    packet.acked = true;
+    if (this->accept(packet.header.seqNum)) {
+        this->packets[packet.header.seqNum - head] = packet;
+    }
 }
 
 void Window::senderForward() {
@@ -48,6 +64,7 @@ void Window::recverForward(std::ofstream& ofp, AddrInfo* sender, std::ofstream& 
             break;
         }
     }
+    this->fill();
     Packet ack(ACK, this->head);
     ack.sendPack(sender, log);
 }

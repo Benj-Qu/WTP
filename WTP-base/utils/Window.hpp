@@ -13,7 +13,6 @@ private:
     unsigned int size;
     unsigned int head;
     std::deque<Packet> packets;
-    Clock clock;
 
 public:
     Window() : size(0), head(0) {};
@@ -23,7 +22,9 @@ public:
     bool accept(unsigned int seqnum);
     void push(Packet packet);
     void pop();
-    void acked(unsigned int seqnum);
+    void fill();
+    void reset();
+    void receive(Packet packet);
     void senderForward();
     void recverForward(std::ofstream& ofp, AddrInfo* sender, std::ofstream& log);
     void cumulForward(unsigned int seqnum);
