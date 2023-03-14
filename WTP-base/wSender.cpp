@@ -64,7 +64,6 @@ int main(int argc, char **argv) {
         // Send Packets
         while (ifp && !window.full()) {
             // Read File
-            memset(buffer, 0, sizeof(buffer));
             ifp.read(buffer, CHUNK_SIZE);
             // Create Packet
             unsigned int dsize = (unsigned int)ifp.gcount();
@@ -74,7 +73,6 @@ int main(int argc, char **argv) {
             window.push(packet);
         }
         // Receive Acks
-        memset(buffer, 0, sizeof(buffer));
         if (recver.recv(buffer, PACKET_SIZE) > 0) {
             Packet packet(buffer, log);
             if (packet.checkSum() && packet.header.type == ACK) {

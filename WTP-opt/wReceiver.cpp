@@ -59,7 +59,6 @@ int main(int argc, char **argv) {
     unsigned int index = 0;
     while(true) {
         // Receive START
-        memset(buffer, 0, sizeof(buffer));
         if (sender.recv(buffer, PACKET_SIZE) > 0) {
             Packet packet(buffer, log);
             if (packet.header.type == START) {
@@ -85,7 +84,6 @@ int main(int argc, char **argv) {
 
         // Receive Data
         while (true) {
-            memset(buffer, 0, sizeof(buffer));
             if (sender.recv(buffer, PACKET_SIZE) > 0) {
                 Packet packet(buffer, log);
                 if (packet.checkSum()) {
