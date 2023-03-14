@@ -67,6 +67,12 @@ int main(int argc, char **argv) {
                 packet.header.type = ACK;
                 packet.sendPack(&sender, log);
             }
+            else if (packet.checkSum() && packet.header.type == END && packet.header.seqNum == seed) {
+                packet.header.type = ACK;
+                packet.sendPack(&sender, log);
+                window.reset();
+                continue;
+            }
             else continue;
         }
         else continue;
