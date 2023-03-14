@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
     std::ifstream ifp(info.iFile, std::ios::in | std::ios::binary);
     std::ofstream log(info.log);
     // Set Buffer And Seed
-    char buffer[CHUNK_SIZE + 1];
+    char buffer[PACKET_SIZE + 1];
     srand((unsigned int)time(NULL));
     unsigned int seed = rand();
 
