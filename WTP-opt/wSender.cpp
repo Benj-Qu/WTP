@@ -45,7 +45,9 @@ int main(int argc, char **argv) {
     Packet start(START, seed);
     start.sendPack(&sender, log);
     while (true) {
-        if (recver.recv(buffer, PACKET_SIZE) <= 0) continue;
+        if (recver.recv(buffer, PACKET_SIZE) <= 0) {
+            start.sendPack(&sender, log);
+        }
         Packet packet(buffer, log);
         if (packet.header.type == ACK && packet.header.seqNum == seed) break;
     }
@@ -87,7 +89,9 @@ int main(int argc, char **argv) {
     Packet end(END, seed);
     end.sendPack(&sender, log);
     while (true) {
-        if (recver.recv(buffer, PACKET_SIZE) <= 0) continue;
+        if (recver.recv(buffer, PACKET_SIZE) <= 0) {
+            end.sendPack(&sender, log);
+        }
         Packet packet(buffer, log);
         if (packet.header.type == ACK && packet.header.seqNum == seed) break;
     }
