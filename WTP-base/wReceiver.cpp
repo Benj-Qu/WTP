@@ -94,14 +94,14 @@ int main(int argc, char **argv) {
                     window.reset();
                     break;
                 }
-                else if (packet.checkSum() && packet.header.type == START && packet.header.seqNum == seed) {
-                    packet.header.type = ACK;
-                    packet.sendPack(&sender, log);
-                }
-                else if (packet.checkSum() && packet.header.type == DATA) {
+                if (packet.checkSum() && packet.header.type == DATA) {
                     window.receive(packet);
                     window.recverForward(ofp);
                     window.sendAck(&sender, log);
+                }
+                if (packet.checkSum() && packet.header.type == START && packet.header.seqNum == seed) {
+                    packet.header.type = ACK;
+                    packet.sendPack(&sender, log);
                 }
             }
         }
