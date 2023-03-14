@@ -94,7 +94,11 @@ int main(int argc, char **argv) {
                     window.reset();
                     break;
                 }
-                if (packet.checkSum() && packet.header.type == DATA) {
+                else if (packet.checkSum() && packet.header.type == START && packet.header.seqNum == seed) {
+                    packet.header.type = ACK;
+                    packet.sendPack(&sender, log);
+                }
+                else if (packet.checkSum() && packet.header.type == DATA) {
                     window.receive(packet);
                     window.recverForward(ofp);
                     window.sendAck(&sender, log);
