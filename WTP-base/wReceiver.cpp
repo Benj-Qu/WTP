@@ -81,7 +81,7 @@ int main(int argc, char **argv) {
         std::ostringstream oss;
         oss << info.oDir << "/FILE-" << index++ << ".out";
         std::string ofile = oss.str();
-        std::ofstream ofp(ofile);
+        std::ofstream ofp(ofile, std::ios::out | std::ios::binary);
 
         // Receive Data
         while (true) {

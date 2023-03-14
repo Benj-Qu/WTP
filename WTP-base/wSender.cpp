@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
     // Create Sender Window
     Window window = Window(info.size);
     // Open Input File and Log File
-    std::ifstream ifp(info.iFile);
+    std::ifstream ifp(info.iFile, std::ios::in | std::ios::binary);
     std::ofstream log(info.log);
     // Set Buffer And Seed
     char buffer[CHUNK_SIZE + 1];
