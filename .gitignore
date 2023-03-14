@@ -3,3 +3,4 @@
 WTP-*/*.txt
 WTP-*/tmp/
 WTP-*/test.out
+topology.py
