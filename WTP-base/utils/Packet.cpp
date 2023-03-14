@@ -35,9 +35,5 @@ void Packet::sendPack(AddrInfo* sender, std::ofstream& log) {
 }
 
 bool Packet::checkSum() {
-    // Debug Use. Delete Later.
-    if (crc32(this->data, this->header.length) != this->header.checksum) {
-        std::cout << "crc error. Data Checksum: " << crc32(this->data, this->header.length) << ", header field: " << this->header.checksum << std::endl;
-    }
     return (crc32(this->data, this->header.length) == this->header.checksum);
 }
