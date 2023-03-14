@@ -88,22 +88,24 @@ int main(int argc, char **argv) {
             memset(buffer, 0, sizeof(buffer));
             if (sender.recv(buffer, PACKET_SIZE) > 0) {
                 Packet packet(buffer, log);
-                if (packet.checkSum() && packet.header.type == END && packet.header.seqNum == seed) {
-                    packet.header.type = ACK;
-                    packet.sendPack(&sender, log);
-                    window.reset();
-                    break;
-                }
-                else if (packet.checkSum() && packet.header.type == START && packet.header.seqNum == seed) {
-                    packet.header.type = ACK;
-                    packet.sendPack(&sender, log);
-                }
-                else if (packet.checkSum() && packet.header.type == DATA) {
-                    if (window.accept(packet.header.seqNum)) {
-                        Packet ack(ACK, packet.header.seqNum);
-                        ack.sendPack(&sender, log);
-                        window.receive(packet);
-                        window.recverForward(ofp);
+                if (packet.checkSum()) {
+                    if (packet.header.type == END && packet.header.seqNum == seed) {
+                        packet.header.type = ACK;
+                        packet.sendPack(&sender, log);
+                        window.reset();
+                        break;
+                    }
+                    else if (packet.header.type == START && packet.header.seqNum == seed) {
+                        packet.header.type = ACK;
+                        packet.sendPack(&sender, log);
+                    }
+                    else if (packet.header.type == DATA) {
+                        if (window.accept(packet.header.seqNum)) {
+                            Packet ack(ACK, packet.header.seqNum);
+                            ack.sendPack(&sender, log);
+                            window.receive(packet);
+                            window.recverForward(ofp);
+                        }
                     }
                 }
             }
