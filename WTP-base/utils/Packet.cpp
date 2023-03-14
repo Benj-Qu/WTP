@@ -5,6 +5,8 @@
 #include <sys/socket.h>
 #include "crc32.hpp"
 
+#include <iostream>
+
 Packet::Packet(unsigned int type, unsigned int seqNum, unsigned int length, char* _data) {
     this->header = PacketHeader(type, seqNum, length, crc32(_data, length));
     this->acked = false;
@@ -33,5 +35,9 @@ void Packet::sendPack(AddrInfo* sender, std::ofstream& log) {
 }
 
 bool Packet::checkSum() {
+    // Debug Use. Delete Later.
+    if (crc32(this->data, this->header.length) != this->header.checksum) {
+        std::cout << "crc error. Data Checksum: " << crc32(this->data, this->header.length) << ", header field: " << this->header.checksum << std::endl;
+    }
     return (crc32(this->data, this->header.length) == this->header.checksum);
 }
