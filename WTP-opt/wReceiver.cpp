@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
     // Open Log File
     std::ofstream log(info.log);
     // Set Buffer
-    char buffer[CHUNK_SIZE + 1];
+    char buffer[PACKET_SIZE + 1];
     unsigned int seed = 0;
 
     // Keep Listening
