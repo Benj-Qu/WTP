@@ -40,20 +40,20 @@ int main(int argc, char **argv) {
     std::ifstream ifp(info.iFile, std::ios::in | std::ios::binary);
     std::ofstream log(info.log);
     // Set Buffer And Seed
-    char buffer[PACKET_SIZE + 1];
+    char buffer[HEADER_SIZE + 1];
     srand((unsigned int)time(NULL));
     unsigned int seed = rand();
 
     // Send Start Packet
-    Packet start(START, seed);
-    start.sendPack(&sender, log);
+    PacketHeader start(START, seed);
+    start.sendHeader(&sender, log);
     while (true) {
-        if (recver.recv(buffer, PACKET_SIZE) <= 0) {
-            start.sendPack(&sender, log);
+        if (recver.recv(buffer, HEADER_SIZE) != HEADER_SIZE) {
+            start.sendHeader(&sender, log);
             continue;
         }
-        Packet packet(buffer, log);
-        if (packet.header.type == ACK && packet.header.seqNum == seed) break;
+        PacketHeader ack(buffer, log);
+        if (ack.type == ACK && ack.seqNum == seed && ack.isSignal()) break;
     }
 
     // Send Packets
@@ -66,19 +66,15 @@ int main(int argc, char **argv) {
         // Send Packets
         while (ifp && !window.full()) {
             // Read File
-            ifp.read(buffer, CHUNK_SIZE);
-            // Create Packet
-            unsigned int dsize = (unsigned int)ifp.gcount();
-            Packet packet(DATA, seqNum++, dsize, buffer);
+            window.read(ifp, seqNum++);
             // Send the packet
-            packet.sendPack(&sender, log);
-            window.push(packet);
+            window.sendback(&sender, log);
         }
         // Receive Acks
-        if (recver.recv(buffer, PACKET_SIZE) > 0) {
-            Packet packet(buffer, log);
-            if (packet.checkSum() && packet.header.type == ACK) {
-                window.cumulForward(packet.header.seqNum);
+        if (recver.recv(buffer, HEADER_SIZE) == HEADER_SIZE) {
+            PacketHeader ack(buffer, log);
+            if (ack.type == ACK && ack.isSignal()) {
+                window.cumulForward(ack.seqNum);
             }
         }
         else {
@@ -87,15 +83,15 @@ int main(int argc, char **argv) {
     }
 
     // Send End Packet
-    Packet end(END, seed);
-    end.sendPack(&sender, log);
+    PacketHeader end(END, seed);
+    end.sendHeader(&sender, log);
     while (true) {
-        if (recver.recv(buffer, PACKET_SIZE) <= 0) {
-            end.sendPack(&sender, log);
+        if (recver.recv(buffer, HEADER_SIZE) != HEADER_SIZE) {
+            end.sendHeader(&sender, log);
             continue;
         }
-        Packet packet(buffer, log);
-        if (packet.header.type == ACK && packet.header.seqNum == seed) break;
+        PacketHeader ack(buffer, log);
+        if (ack.type == ACK && ack.seqNum == seed && ack.isSignal()) break;
     }
 
     // Close Files And Socket

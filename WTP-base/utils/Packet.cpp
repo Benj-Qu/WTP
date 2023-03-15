@@ -18,6 +18,13 @@ Packet::Packet(char* buffer, std::ofstream& log) {
     this->header.log(log);
 }
 
+Packet::Packet(std::ifstream& ifp, unsigned int seqNum) {
+    this->acked = false;
+    ifp.read(this->data, CHUNK_SIZE);
+    unsigned int dsize = (unsigned int)ifp.gcount();
+    this->header = PacketHeader(DATA, seqNum, dsize, crc32(this->data, dsize));
+}
+
 void Packet::sendPack(AddrInfo* sender, std::ofstream& log) {
     char message[PACKET_SIZE + 1];
     this->header.encode(message);

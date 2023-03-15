@@ -2,11 +2,9 @@
 #define __PACKET_H__
 
 #include "PacketHeader.hpp"
-#include "udp.hpp"
 
 #define CHUNK_SIZE 1456
 #define PACKET_SIZE 1472
-#define HEADER_SIZE 16
 
 class Packet {
 public:
@@ -16,6 +14,7 @@ public:
     Packet(unsigned int type, unsigned int seqNum) : header(PacketHeader(type, seqNum, 0, 0)), acked(false) {};
     Packet(unsigned int type, unsigned int seqNum, unsigned int length, char* _data);
     Packet(char* buffer, std::ofstream& log);
+    Packet(std::ifstream& ifp, unsigned int seqNum);
     void sendPack(AddrInfo* sender, std::ofstream& log);
     bool checkSum();
 };

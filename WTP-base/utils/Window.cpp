@@ -90,6 +90,10 @@ void Window::sendall(AddrInfo* sender, std::ofstream& log) {
     }
 }
 
+void Window::sendback(AddrInfo* sender, std::ofstream& log) {
+    this->packets.back().sendPack(sender, log);
+}
+
 void Window::sendAck(AddrInfo* sender, std::ofstream& log) {
     Packet ack(ACK, this->head);
     ack.sendPack(sender, log);
@@ -101,4 +105,8 @@ void Window::resendAll(AddrInfo* sender, std::ofstream& log) {
             packet.sendPack(sender, log);
         }
     }
+}
+
+void Window::read(std::ifstream& ifp, unsigned int seqNum) {
+    this->packets.emplace_back(ifp, seqNum);
 }

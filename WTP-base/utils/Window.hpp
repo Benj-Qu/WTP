@@ -28,9 +28,11 @@ public:
     void senderForward();
     void recverForward(std::ofstream& ofp);
     void cumulForward(unsigned int seqnum);
+    void sendback(AddrInfo* sender, std::ofstream& log);
     void sendall(AddrInfo* sender, std::ofstream& log);
     void sendAck(AddrInfo* sender, std::ofstream& log);
     void resendAll(AddrInfo* sender, std::ofstream& log);
+    void read(std::ifstream& ifp, unsigned int seqNum);
 };
 
 #endif
