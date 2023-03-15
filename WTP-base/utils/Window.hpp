@@ -3,7 +3,6 @@
 
 #include <deque>
 #include "Packet.hpp"
-#include "Clock.hpp"
 #include "udp.hpp"
 
 #define INIT_SEQ 0

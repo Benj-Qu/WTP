@@ -8,6 +8,8 @@
 #include "utils/Window.hpp"
 #include "utils/udp.hpp"
 
+#define RETRANS_TIME 500
+
 int main(int argc, char **argv) {
     SenderInfo info(argc, argv);
 
