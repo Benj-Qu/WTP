@@ -78,7 +78,7 @@ void Window::recverForward(std::ofstream& ofp) {
 }
 
 void Window::cumulForward(unsigned int seqnum) {
-    if (!this->accept(seqnum)) return;
+    if ((seqnum < this->head) || (seqnum > (this->head + this->size))) return;
     while (!this->packets.empty()) {
         if (this->head >= seqnum) {
             break;
