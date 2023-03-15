@@ -52,6 +52,7 @@ int main(int argc, char **argv) {
     // Open Log File
     std::ofstream log(info.log);
     // Set Buffer
+    char hdBuffer[HEADER_SIZE + 1];
     char buffer[PACKET_SIZE + 1];
     unsigned int seed = 0;
 
@@ -59,16 +60,16 @@ int main(int argc, char **argv) {
     unsigned int index = 0;
     while(true) {
         // Receive START
-        if (sender.recv(buffer, PACKET_SIZE) > 0) {
-            Packet packet(buffer, log);
-            if (packet.checkSum() && packet.header.type == START) {
-                seed = packet.header.seqNum;
-                packet.header.type = ACK;
-                packet.sendPack(&sender, log);
+        if (sender.recv(hdBuffer, HEADER_SIZE) == HEADER_SIZE) {
+            PacketHeader start(hdBuffer, log);
+            if (start.isSignal() && start.type == START) {
+                seed = start.seqNum;
+                start.type = ACK;
+                start.sendHeader(&sender, log);
             }
-            else if (packet.checkSum() && packet.header.type == END && packet.header.seqNum == seed) {
-                packet.header.type = ACK;
-                packet.sendPack(&sender, log);
+            else if (start.isSignal() && start.type == END && start.seqNum == seed) {
+                start.type = ACK;
+                start.sendHeader(&sender, log);
                 window.reset();
                 continue;
             }
@@ -85,23 +86,23 @@ int main(int argc, char **argv) {
         // Receive Data
         while (true) {
             if (sender.recv(buffer, PACKET_SIZE) > 0) {
-                Packet packet(buffer, log);
-                if (packet.checkSum()) {
-                    if (packet.header.type == END && packet.header.seqNum == seed) {
-                        packet.header.type = ACK;
-                        packet.sendPack(&sender, log);
+                PacketHeader header(buffer, log);
+                if (header.isSignal()) {
+                    if (header.type == END && header.seqNum == seed) {
+                        header.type = ACK;
+                        header.sendHeader(&sender, log);
                         window.reset();
                         break;
                     }
-                    else if (packet.header.type == START && packet.header.seqNum == seed) {
-                        packet.header.type = ACK;
-                        packet.sendPack(&sender, log);
+                    else if (header.type == START && header.seqNum == seed) {
+                        header.type = ACK;
+                        header.sendHeader(&sender, log);
                     }
-                    else if (packet.header.type == DATA) {
-                        window.receive(packet);
-                        window.recverForward(ofp);
-                        window.sendAck(&sender, log);
-                    }
+                }
+                else if ((header.type == DATA) && (crc32(buffer + HEADER_SIZE, header.length) == header.checksum)) {
+                    window.receive(header, buffer + HEADER_SIZE);
+                    window.recverForward(ofp);
+                    window.sendAck(&sender, log);
                 }
             }
         }

@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <cstring>
 #include <sys/socket.h>
-#include "crc32.hpp"
 
 Packet::Packet(unsigned int type, unsigned int seqNum, unsigned int length, char* _data) {
     this->header = PacketHeader(type, seqNum, length, crc32(_data, length));

@@ -42,5 +42,5 @@ void PacketHeader::sendHeader(AddrInfo* sender, std::ofstream& log) {
 }
 
 bool PacketHeader::isSignal() {
-	return ((this->length == 0) && (this->checksum == 0));
+	return ((this->length == 0) && (this->checksum == 0) && (this->type != DATA));
 }

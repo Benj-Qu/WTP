@@ -1,5 +1,7 @@
 #include "Window.hpp"
 
+#include <cstring>
+
 bool Window::full() {
     return (this->packets.size() == this->size);
 }
@@ -40,11 +42,12 @@ void Window::ack(unsigned int seqNum) {
     }
 }
 
-void Window::receive(Packet packet) {
-    unsigned int index = packet.header.seqNum - head;
-    if (this->accept(packet.header.seqNum) && !this->packets[index].acked) {
-        packet.acked = true;
-        this->packets[index] = packet;
+void Window::receive(PacketHeader header, char* buffer) {
+    unsigned int index = header.seqNum - head;
+    if (this->accept(header.seqNum) && !this->packets[index].acked) {
+        this->packets[index].acked = true;
+        this->packets[index].header = header;
+        memcpy(this->packets[index].data, buffer, header.length);
     }
 }
 

@@ -24,7 +24,7 @@ public:
     void fill();
     void reset();
     void ack(unsigned int seqNum);
-    void receive(Packet packet);
+    void receive(PacketHeader header, char* buffer);
     void senderForward();
     void recverForward(std::ofstream& ofp);
     void cumulForward(unsigned int seqnum);

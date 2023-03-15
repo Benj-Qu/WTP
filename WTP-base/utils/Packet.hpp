@@ -2,6 +2,7 @@
 #define __PACKET_H__
 
 #include "PacketHeader.hpp"
+#include "crc32.hpp"
 
 #define CHUNK_SIZE 1456
 #define PACKET_SIZE 1472
