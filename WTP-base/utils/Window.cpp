@@ -41,9 +41,12 @@ void Window::ack(unsigned int seqNum) {
 }
 
 void Window::receive(Packet packet) {
-    packet.acked = true;
-    if (this->accept(packet.header.seqNum)) {
-        this->packets[packet.header.seqNum - head] = packet;
+    unsigned int index = packet.header.seqNum - head;
+    if (!this->packets[index].acked) {
+        packet.acked = true;
+        if (this->accept(packet.header.seqNum)) {
+            this->packets[packet.header.seqNum - head] = packet;
+        }
     }
 }
 
